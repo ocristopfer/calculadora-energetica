@@ -1,4 +1,5 @@
 import React from "react";
+import { Form, Row, Col, Button } from "react-bootstrap";
 import styles from "./Inputs.module.css";
 import Result from "./../Result";
 console.log(styles);
@@ -65,59 +66,69 @@ class Inputs extends React.Component {
     } = this.state;
     return (
       <div className={styles.component}>
-        <span>
-          Todo: Necessário adicionar caculo para taxa de iluminação public
-          <br />
-          Todo: Melhorar o layout que ta feio
-          <br />
-          Todo: Verificar calculo
-        </span>
-        <div className={styles.card}>
-          <div className={styles.inputs}>
-            <span>Medição Anterior:</span>
-            <input
-              type="text"
-              name="name"
-              value={this.state.medicaoAnterior}
-              onChange={this.handleChangeMedicaoAnterior}
-            />
-            <span>Medição Atual: </span>
-            <input
-              type="text"
-              name="name"
-              value={this.state.medicaoAtual}
-              onChange={this.handleChangeMedicaoAtual}
-            />
-            <span>Valor do Kwh: </span>
-            <input
-              type="text"
-              name="name"
-              value={this.state.valorKwh}
-              onChange={this.handleChangeValorKwh}
-            />
-            <span>Bandeira:</span>
-            <select
-              name="bandeiras"
-              id="bandeiras"
-              value={this.state.bandeira}
-              onChange={this.handleChangeBandeira}
-            >
-              <option value="0">Verde</option>
-              <option value="1.87">Amarela</option>
-              <option value="3.97">Vermelha 1</option>
-              <option value="9.49">Vermelha 2</option>
-            </select>
-            <span>Bandeira Escassez Hídrica:</span>
-            <input
-              type="checkbox"
-              value={this.state.bFlEscassezHidrica}
-              onChange={this.handleChangeEcassezHidrica}
-            ></input>
-            <button className={styles.btnCacular} onClick={this.calcular}>
-              Calcular
-            </button>
-          </div>
+        <Form>
+          <Row className="mx-0">
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Medição anterior</Form.Label>
+              <Form.Control
+                sm="10"
+                type="number"
+                placeholder="Medição anterior"
+                value={this.state.medicaoAnterior}
+                onChange={this.handleChangeMedicaoAnterior}
+              />
+            </Form.Group>
 
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Medição atual</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Medição atual"
+                value={this.state.medicaoAtual}
+                onChange={this.handleChangeMedicaoAtual}
+              />
+            </Form.Group>
+          </Row>
+          <Row className="mx-0">
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Valor do Kwh:</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Valor do Kwh"
+                value={this.state.valorKwh}
+                onChange={this.handleChangeValorKwh}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Bandeira</Form.Label>
+              <Form.Select
+                value={this.state.bandeira}
+                onChange={this.handleChangeBandeira}
+              >
+                <option value="0">Verde</option>
+                <option value="1.87">Amarela</option>
+                <option value="3.97">Vermelha 1</option>
+                <option value="9.49">Vermelha 2</option>
+              </Form.Select>
+            </Form.Group>
+          </Row>
+          <Row className="mx-0">
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Check
+                type="checkbox"
+                label="Bandeira escassez hídrica"
+                value={this.state.bFlEscassezHidrica}
+                onChange={this.handleChangeEcassezHidrica}
+              />
+            </Form.Group>
+          </Row>
+          <Button variant="primary" onClick={this.calcular}>
+            Calcular
+          </Button>
+        </Form>
+
+        <div className={styles.card}>
           {bFlExibirResultado ? (
             <div className={styles.result}>
               <Result
