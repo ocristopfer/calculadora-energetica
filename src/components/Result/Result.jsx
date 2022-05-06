@@ -1,77 +1,90 @@
 import React from "react";
-import styles from "./Result.module.css";
-class Result extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
-    this.medicaoAnterior = this.props.medicaoAnterior;
-    this.medicaoAtual = this.props.medicaoAtual;
-    this.bandeira = this.props.bandeira;
-    this.bFlEscassezHidrica = this.props.bFlEscassezHidrica;
-    this.valorKwh = this.props.valorKwh;
-    this.calcular();
-  }
-  calcular = () => {
-    this.totalKwh = this.medicaoAtual - this.medicaoAnterior;
-    this.valorConsumido = parseFloat(
-      this.totalKwh * (this.valorKwh !== 0 ? this.valorKwh : 1.1)
-    );
-    this.valorBandeira = parseFloat(this.getValorBandeira());
-    this.valorEscassezHidrica = parseFloat(this.getValorEcassezHidrica());
-    this.taxaIluminacao = parseFloat(this.getTaxaIluminacao());
-    this.valorTotal =
-      this.valorConsumido +
-      this.valorBandeira +
-      this.valorEscassezHidrica +
-      this.taxaIluminacao;
+import { Card, Col } from "react-bootstrap";
+
+const Result = ({
+  medicaoAnterior,
+  medicaoAtual,
+  bandeira,
+  bFlEscassezHidrica,
+  valorKwh,
+}) => {
+  let {
+    totalKwh,
+    valorConsumido,
+    valorBandeira,
+    valorEscassezHidrica,
+    valorTaxaIluminacao,
+    valorTotal,
+  } = 0;
+
+  const calcular = () => {
+    totalKwh = medicaoAtual - medicaoAnterior;
+    valorConsumido = parseFloat(totalKwh * (valorKwh !== 0 ? valorKwh : 1.1));
+    valorBandeira = parseFloat(getValorBandeira());
+    valorEscassezHidrica = parseFloat(getValorEcassezHidrica());
+    valorTaxaIluminacao = parseFloat(getTaxaIluminacao());
+    valorTotal =
+      valorConsumido +
+      valorBandeira +
+      valorEscassezHidrica +
+      valorTaxaIluminacao;
   };
-  getValorBandeira = () => {
-    if (this.bandeira === 0) {
+
+  const getValorBandeira = () => {
+    if (bandeira === 0) {
       return 0;
     } else {
-      return (this.valorConsumido / 100) * this.bandeira;
+      return (valorConsumido / 100) * bandeira;
     }
   };
-  getValorEcassezHidrica = () => {
-    if (this.bFlEscassezHidrica) {
-      return (this.valorConsumido / 100) * 14.2;
+  const getValorEcassezHidrica = () => {
+    if (bFlEscassezHidrica) {
+      return (valorConsumido / 100) * 14.2;
     } else {
       return 0;
     }
   };
 
-  getTaxaIluminacao = () => {
+  //Todo: calculo de taxa de iluminação
+  const getTaxaIluminacao = () => {
     return 18;
   };
-  render() {
-    return (
-      <div className={styles.card}>
-        <div className={styles.results}>
-          <span>Total KWH: </span>
-          <span>{this.totalKwh}</span>
-        </div>
-        <div className={styles.results}>
-          <span>Valor Consumido: </span>
-          <span>R${this.valorConsumido.toFixed(2)}</span>
-        </div>
-        <div className={styles.results}>
-          <span>Bandeira: </span>
-          <span>R${this.valorBandeira.toFixed(2)}</span>
-        </div>
-        <div className={styles.results}>
-          <span>Escassez Hidrica: </span>
-          <span>R${this.valorEscassezHidrica.toFixed(2)}</span>
-        </div>
-        <div className={styles.results}>
-          <span>Taxa Iluminacao: </span>
-          <span>R${this.taxaIluminacao.toFixed(2)}</span>
-        </div>
-        <div className={styles.results}>
-          <span>Valor Total: </span>
-          <span>R${this.valorTotal.toFixed(2)}</span>
-        </div>
-      </div>
-    );
-  }
-}
+  calcular();
+  return (
+    <>
+      <Card>
+        <Card.Body>
+          <div className="mb-3" as={Col}>
+            <div>
+              <span>Total Consumido (Kwh): </span>
+              <span>{totalKwh}</span>
+            </div>
+            <div>
+              <span>Valor Consumido: </span>
+              <span>R${valorConsumido.toFixed(2)}</span>
+            </div>
+            <div>
+              <span>Valor Total: </span>
+              <span>R${valorTotal.toFixed(2)}</span>
+            </div>
+          </div>
+          <div className="mb-3" as={Col}>
+            <div>
+              <span>Bandeira: </span>
+              <span>R${valorBandeira.toFixed(2)}</span>
+            </div>
+            <div>
+              <span>Escassez Hidrica: </span>
+              <span>R${valorEscassezHidrica.toFixed(2)}</span>
+            </div>
+            <div>
+              <span>Taxa Iluminacao: </span>
+              <span>R${valorTaxaIluminacao.toFixed(2)}</span>
+            </div>
+          </div>
+        </Card.Body>
+      </Card>
+    </>
+  );
+};
 export default Result;

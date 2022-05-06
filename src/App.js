@@ -1,12 +1,16 @@
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Inputs from "./components/Inputs";
+import styles from "./App.module.css";
+import { Inputs, NavBar } from "./components";
 
 function App() {
   return (
-    <div className="App">
-      <Inputs></Inputs>
-    </div>
+    <>
+      <NavBar></NavBar>
+      <br />
+      <div className={styles.App}>
+        <Inputs></Inputs>
+      </div>
+    </>
   );
 }
 
