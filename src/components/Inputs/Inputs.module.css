@@ -1,0 +1,35 @@
+.component{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border-radius: 10px;
+    width: 40%;
+    height: 20rem;
+    margin: 1rem;
+    box-shadow: 0 2px 5px 0px #949ca5;
+}
+
+.inputs {
+    width: 100%;
+    text-decoration: none;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    padding: 1px;
+}
+
+.btnCacular {
+    margin: 5px;
+    padding: 5px;
+}
+
+.result{
+    padding-top: 100px;
+    width: 100%;
+}
