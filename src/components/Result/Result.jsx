@@ -27,15 +27,16 @@ const Result = ({ objInputs }) => {
   };
 
   const getValorTarifa = () => {
-    let valor = parseFloat(valorKwh);
-    valor +=
-      valorIMCS !== 0
-        ? (valorKwh * valorIMCS) / 100
-        : parseFloat((valorKwh * getICMS()) / 100);
-    //valor += parseFloat(getValorBandeira() / 100);
-    valor += (valor * valorPISPASEP !== 0 ? valorPISPASEP : 0.65) / 100;
-    valor += (valor * valorCOFINS !== 0 ? valorCOFINS : 3) / 100;
+    let valor = checkAndReturnValue(valorKwh, 0.8022);
+    valor += (valor * checkAndReturnValue(valorIMCS, getICMS())) / 100;
+    valor += (valor * checkAndReturnValue(valorPISPASEP, 0.65)) / 100;
+    valor += (valor * checkAndReturnValue(valorCOFINS, 3)) / 100;
     return valor;
+  };
+
+  const checkAndReturnValue = (value, _default) => {
+    if (value !== 0 && value !== "") return parseFloat(value);
+    return _default;
   };
 
   const getICMS = () => {
@@ -43,17 +44,6 @@ const Result = ({ objInputs }) => {
     if (totalKwh >= 51 && totalKwh <= 300) return 18;
     if (totalKwh >= 301 && totalKwh <= 450) return 31;
     if (totalKwh > 450) return 32;
-  };
-
-  /**
-   * Retorna o valor da tabela de kwh com os imposto abril de 2022
-   * @returns
-   */
-  const getValorKwh = () => {
-    if (totalKwh < 50) return 0.83026;
-    if (totalKwh >= 51 && totalKwh <= 300) return 1.01252;
-    if (totalKwh >= 301 && totalKwh <= 450) return 1.20328;
-    if (totalKwh > 450) return 1.22097;
   };
 
   /**
@@ -73,9 +63,7 @@ const Result = ({ objInputs }) => {
   };
 
   totalKwh = medicaoAtual - medicaoAnterior;
-  valorConsumido = parseFloat(
-    totalKwh * (valorKwh !== 0 ? getValorTarifa() : getValorKwh())
-  );
+  valorConsumido = parseFloat(totalKwh * getValorTarifa());
 
   if (bandeira !== 0)
     valorBandeira = parseFloat(getValorBandeira() * (totalKwh / 100));
