@@ -1,7 +1,17 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
-const Result = ({ medicaoAnterior, medicaoAtual, bandeira, valorKwh }) => {
+const Result = ({ objInputs }) => {
+  const {
+    bandeira,
+    valorKwh,
+    medicaoAnterior,
+    medicaoAtual,
+    valorIMCS,
+    valorPISPASEP,
+    valorCOFINS,
+  } = objInputs;
+
   let totalKwh = 0,
     valorConsumido = 0,
     valorBandeira = 0,
@@ -18,14 +28,13 @@ const Result = ({ medicaoAnterior, medicaoAtual, bandeira, valorKwh }) => {
 
   const getValorTarifa = () => {
     let valor = parseFloat(valorKwh);
-    valor += parseFloat((valorKwh * getICMS()) / 100);
-    valor += parseFloat(getValorBandeira() / 100);
-    ///PIS
-    //  valor += (valor * 0.65) / 100;
-    //  valor += (valor * 3) / 100;
-    valor += (valor * 0.34) / 100;
-    valor += (valor * 1.58) / 100;
-    console.log(valor);
+    valor +=
+      valorIMCS !== 0
+        ? (valorKwh * valorIMCS) / 100
+        : parseFloat((valorKwh * getICMS()) / 100);
+    //valor += parseFloat(getValorBandeira() / 100);
+    valor += (valor * valorPISPASEP !== 0 ? valorPISPASEP : 0.65) / 100;
+    valor += (valor * valorCOFINS !== 0 ? valorCOFINS : 3) / 100;
     return valor;
   };
 
@@ -64,19 +73,14 @@ const Result = ({ medicaoAnterior, medicaoAtual, bandeira, valorKwh }) => {
   };
 
   totalKwh = medicaoAtual - medicaoAnterior;
-
   valorConsumido = parseFloat(
-    totalKwh *
-      (valorKwh !== 0
-        ? getValorTarifa()
-        : getValorKwh() + (bandeira !== 0 ? getValorBandeira() / 100 : 0))
+    totalKwh * (valorKwh !== 0 ? getValorTarifa() : getValorKwh())
   );
 
   if (bandeira !== 0)
     valorBandeira = parseFloat(getValorBandeira() * (totalKwh / 100));
 
   valorTaxaIluminacao = parseFloat(getTaxaIluminacao());
-  valorConsumido = valorConsumido - valorBandeira;
   valorTotal = valorConsumido + valorBandeira + valorTaxaIluminacao;
 
   return (

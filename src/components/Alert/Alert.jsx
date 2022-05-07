@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
+import Parser from "html-react-parser";
 
 function AlertDismissibleExample({
   bFlShowAlert,
@@ -11,13 +12,11 @@ function AlertDismissibleExample({
   if (show) {
     return (
       <Alert variant={variant} onClose={() => setShow(false)} dismissible>
-        <Alert.Heading>{titulo}</Alert.Heading>
-        <p>{msg}</p>
+        <Alert.Heading>{Parser(titulo)}</Alert.Heading>
+        {Parser(msg)}
       </Alert>
     );
   }
-
-  //return <Button onClick={() => setShow(true)}>Show Alert</Button>;
 }
 
 export default AlertDismissibleExample;

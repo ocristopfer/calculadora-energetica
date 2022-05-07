@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, Row, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Form, Row, Card, OverlayTrigger, Tooltip, Col } from "react-bootstrap";
+import Parser from "html-react-parser";
 import { Result, Alert } from "./../";
 
 class Inputs extends React.Component {
@@ -12,6 +13,9 @@ class Inputs extends React.Component {
       medicaoAtual: 0,
       valorKwh: 0,
       bandeira: 0,
+      valorIMCS: 0,
+      valorPISPASEP: 0,
+      valorCOFINS: 0,
     };
   }
 
@@ -37,11 +41,11 @@ class Inputs extends React.Component {
       </OverlayTrigger>
     </Form.Group>
   );
-  renderTooltip = (msg) => <Tooltip id="button-tooltip">{msg}</Tooltip>;
+  renderTooltip = (msg) => <Tooltip id="button-tooltip">{Parser(msg)}</Tooltip>;
 
   render() {
-    const { resultCount, medicaoAnterior, medicaoAtual, valorKwh, bandeira } =
-      this.state;
+    const { resultCount } = this.state;
+    const objInputs = this.state;
     return (
       <>
         <Alert
@@ -64,11 +68,6 @@ class Inputs extends React.Component {
                   "medicaoAtual",
                   "Quantidade Kwh atual do medidor"
                 )}
-                {this.renderFormGroup(
-                  "Valor da tarifa sem tributos (opicional)",
-                  "valorKwh",
-                  "Valor do Kwh"
-                )}
 
                 <Form.Group className="mb-3">
                   <Form.Label>Bandeira</Form.Label>
@@ -76,7 +75,7 @@ class Inputs extends React.Component {
                     placement="top"
                     delay={{ show: 250, hide: 400 }}
                     overlay={this.renderTooltip(
-                      "Bandeira de cobrança, Verde: 0, Amarela: R$1,87, Vermelha 1: 3,97, Vermelha 2: R$9,49, Escassez Hídrica: R$14,20"
+                      "Bandeira de cobrança:  <br/ >Verde: R$0,00 <br/ > Amarela: R$1,87  <br/ >Vermelha 1: R$3,97  <br/ >Vermelha 2: R$9,49  <br/ >Escassez Hídrica: R$14,20"
                     )}
                   >
                     <Form.Select
@@ -93,17 +92,50 @@ class Inputs extends React.Component {
                     </Form.Select>
                   </OverlayTrigger>
                 </Form.Group>
+                <Card>
+                  <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={this.renderTooltip(
+                      "Area criada para que os dados base de calculo sejam informados diretamente"
+                    )}
+                  >
+                    <Card.Header>Opcional (Dados para os cálculos)</Card.Header>
+                  </OverlayTrigger>
+                  <Card.Body>
+                    <Row className="mx-0">
+                      <Col>
+                        {this.renderFormGroup(
+                          "Tarifa sem Tributos (R$)",
+                          "valorKwh",
+                          "Valor do Kwh"
+                        )}
+                        {this.renderFormGroup(
+                          "Aliquota ICMS (%)",
+                          "valorIMCS",
+                          "Porcentagem do ICMS"
+                        )}
+                      </Col>
+                      <Col>
+                        {this.renderFormGroup(
+                          "Aliquota PIS/PASEP (%)",
+                          "valorPISPASEP",
+                          "Valor do Kwh"
+                        )}
+                        {this.renderFormGroup(
+                          "Aliquota COFINS (%)",
+                          "valorCOFINS",
+                          "Valor do Kwh"
+                        )}
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
               </Row>
             </Card.Body>
           </Card>
           <br />
-          <Result
-            key={resultCount}
-            medicaoAnterior={medicaoAnterior}
-            medicaoAtual={medicaoAtual}
-            valorKwh={valorKwh}
-            bandeira={bandeira}
-          ></Result>
+          <Result key={resultCount} objInputs={objInputs}></Result>
         </Form>
       </>
     );
