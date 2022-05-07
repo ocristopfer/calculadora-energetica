@@ -86,10 +86,10 @@ class Inputs extends React.Component {
                       }
                     >
                       <option value="0">Verde</option>
-                      <option value="1.87">Amarela</option>
-                      <option value="3.97">Vermelha 1</option>
-                      <option value="9.49">Vermelha 2</option>
-                      <option value="14.20">Escassez Hídrica</option>
+                      <option value="1">Amarela</option>
+                      <option value="2">Vermelha 1</option>
+                      <option value="3">Vermelha 2</option>
+                      <option value="4">Escassez Hídrica</option>
                     </Form.Select>
                   </OverlayTrigger>
                 </Form.Group>

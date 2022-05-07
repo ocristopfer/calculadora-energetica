@@ -2,35 +2,29 @@ import React from "react";
 import { Card } from "react-bootstrap";
 
 const Result = ({ medicaoAnterior, medicaoAtual, bandeira, valorKwh }) => {
-  let {
-    totalKwh,
-    valorConsumido,
-    valorBandeira,
-    valorTaxaIluminacao,
-    valorTotal,
-  } = 0;
-
-  const calcular = () => {
-    totalKwh = medicaoAtual - medicaoAnterior;
-    valorConsumido = parseFloat(
-      totalKwh * (valorKwh !== 0 ? getValorTarifa() : getValorKwh())
-    );
-    valorBandeira = parseFloat(getValorBandeira());
-    valorTaxaIluminacao = parseFloat(getTaxaIluminacao());
-    valorTotal = valorConsumido + valorBandeira + valorTaxaIluminacao;
-  };
+  let totalKwh = 0,
+    valorConsumido = 0,
+    valorBandeira = 0,
+    valorTaxaIluminacao = 0,
+    valorTotal = 0;
 
   const getValorBandeira = () => {
-    if (bandeira === 0) {
-      return 0;
-    } else {
-      return (valorConsumido / 100) * bandeira;
-    }
+    if (bandeira === "0") return 0;
+    if (bandeira === "1") return 1.87;
+    if (bandeira === "2") return 3.97;
+    if (bandeira === "3") return 9.49;
+    if (bandeira === "4") return 14.2;
   };
+
   const getValorTarifa = () => {
     let valor = parseFloat(valorKwh);
-    console.log(valor, parseFloat((valor * getICMS()) / 100));
-    valor = valor + parseFloat((valor * getICMS()) / 100);
+    valor += parseFloat((valorKwh * getICMS()) / 100);
+    valor += parseFloat(getValorBandeira() / 100);
+    ///PIS
+    //  valor += (valor * 0.65) / 100;
+    //  valor += (valor * 3) / 100;
+    valor += (valor * 0.34) / 100;
+    valor += (valor * 1.58) / 100;
     console.log(valor);
     return valor;
   };
@@ -42,6 +36,10 @@ const Result = ({ medicaoAnterior, medicaoAtual, bandeira, valorKwh }) => {
     if (totalKwh > 450) return 32;
   };
 
+  /**
+   * Retorna o valor da tabela de kwh com os imposto abril de 2022
+   * @returns
+   */
   const getValorKwh = () => {
     if (totalKwh < 50) return 0.83026;
     if (totalKwh >= 51 && totalKwh <= 300) return 1.01252;
@@ -49,7 +47,10 @@ const Result = ({ medicaoAnterior, medicaoAtual, bandeira, valorKwh }) => {
     if (totalKwh > 450) return 1.22097;
   };
 
-  //Todo: calculo de taxa de iluminação
+  /**
+   * Retorna a taxa de iluminação do rio de janeiro.
+   * @returns
+   */
   const getTaxaIluminacao = () => {
     if (totalKwh < 80) return 0;
     if (totalKwh >= 80 && totalKwh < 100) return 6.55;
@@ -61,7 +62,23 @@ const Result = ({ medicaoAnterior, medicaoAtual, bandeira, valorKwh }) => {
     if (totalKwh >= 100 && totalKwh < 1500) return 26.2;
     if (totalKwh >= 1500) return 28.61;
   };
-  calcular();
+
+  totalKwh = medicaoAtual - medicaoAnterior;
+
+  valorConsumido = parseFloat(
+    totalKwh *
+      (valorKwh !== 0
+        ? getValorTarifa()
+        : getValorKwh() + (bandeira !== 0 ? getValorBandeira() / 100 : 0))
+  );
+
+  if (bandeira !== 0)
+    valorBandeira = parseFloat(getValorBandeira() * (totalKwh / 100));
+
+  valorTaxaIluminacao = parseFloat(getTaxaIluminacao());
+  valorConsumido = valorConsumido - valorBandeira;
+  valorTotal = valorConsumido + valorBandeira + valorTaxaIluminacao;
+
   return (
     <>
       <Card>
