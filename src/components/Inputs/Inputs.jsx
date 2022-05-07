@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, Row, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
-import styles from "./Inputs.module.css";
 import { Result, Alert } from "./../";
 
 class Inputs extends React.Component {
@@ -12,7 +11,6 @@ class Inputs extends React.Component {
       medicaoAnterior: 0,
       medicaoAtual: 0,
       valorKwh: 0,
-      bFlEscassezHidrica: false,
       bandeira: 0,
     };
   }
@@ -42,14 +40,8 @@ class Inputs extends React.Component {
   renderTooltip = (msg) => <Tooltip id="button-tooltip">{msg}</Tooltip>;
 
   render() {
-    const {
-      resultCount,
-      medicaoAnterior,
-      medicaoAtual,
-      valorKwh,
-      bFlEscassezHidrica,
-      bandeira,
-    } = this.state;
+    const { resultCount, medicaoAnterior, medicaoAtual, valorKwh, bandeira } =
+      this.state;
     return (
       <>
         <Alert
@@ -65,15 +57,15 @@ class Inputs extends React.Component {
                 {this.renderFormGroup(
                   "Medição anterior",
                   "medicaoAnterior",
-                  "Valor em Kwh da medição anterior feita pela concessionária"
+                  "Quantidade de Khw da ultima medição feita pela concessionária"
                 )}
                 {this.renderFormGroup(
                   "Medição atual",
                   "medicaoAtual",
-                  "Valor em Kwh da medição atual feita pela concessionária"
+                  "Quantidade Kwh atual do medidor"
                 )}
                 {this.renderFormGroup(
-                  "Valor do Kwh",
+                  "Valor da tarifa sem tributos (opicional)",
                   "valorKwh",
                   "Valor do Kwh"
                 )}
@@ -84,7 +76,7 @@ class Inputs extends React.Component {
                     placement="top"
                     delay={{ show: 250, hide: 400 }}
                     overlay={this.renderTooltip(
-                      "Bandeira de cobrança, Verde: 0, Amarela: 1,87, Vermelha 1: 3,97, Vermelha 2: 9,49"
+                      "Bandeira de cobrança, Verde: 0, Amarela: R$1,87, Vermelha 1: 3,97, Vermelha 2: R$9,49, Escassez Hídrica: R$14,20"
                     )}
                   >
                     <Form.Select
@@ -97,19 +89,9 @@ class Inputs extends React.Component {
                       <option value="1.87">Amarela</option>
                       <option value="3.97">Vermelha 1</option>
                       <option value="9.49">Vermelha 2</option>
+                      <option value="14.20">Escassez Hídrica</option>
                     </Form.Select>
                   </OverlayTrigger>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Check
-                    type="checkbox"
-                    label="Bandeira escassez hídrica"
-                    value={this.state.bFlEscassezHidrica}
-                    onChange={(e) =>
-                      this.handlerChange(e.target.checked, "bFlEscassezHidrica")
-                    }
-                    className={styles.fixCheckBox}
-                  />
                 </Form.Group>
               </Row>
             </Card.Body>
@@ -120,7 +102,6 @@ class Inputs extends React.Component {
             medicaoAnterior={medicaoAnterior}
             medicaoAtual={medicaoAtual}
             valorKwh={valorKwh}
-            bFlEscassezHidrica={bFlEscassezHidrica}
             bandeira={bandeira}
           ></Result>
         </Form>
