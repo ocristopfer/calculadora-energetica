@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap'
 import { ICalculadora } from '../../interfaces/props/ICalculadora'
 
 const ResultadoCalculadora = ({ objInputs }: any) => {
+  console.log(objInputs)
   const {
     bandeira,
     valorKwh,

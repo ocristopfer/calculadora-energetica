@@ -1,7 +1,14 @@
 import React from 'react'
+import { Card } from 'react-bootstrap'
 
-function Contact() {
-  return <address>Ainda vai ser atualizado</address>
+const Contact = () => {
+  return (
+    <React.Fragment>
+      <Card className="mt-3">
+        <Card.Body>Contato: ocristopfer@gmail.com</Card.Body>
+      </Card>
+    </React.Fragment>
+  )
 }
 
 export default Contact
