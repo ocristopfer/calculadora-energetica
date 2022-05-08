@@ -1,1 +1,1 @@
-export { default } from "./ResultadoCalculadora";
+export { default } from './ResultadoCalculadora'

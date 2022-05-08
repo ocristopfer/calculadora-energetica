@@ -1,1 +1,1 @@
-export { default } from "./Calculadora";
+export { default } from './Calculadora'

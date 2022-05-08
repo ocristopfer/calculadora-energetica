@@ -1,5 +1,5 @@
 export interface IRotas {
-  key: number;
-  caminho: string;
-  nome: string;
+  key: number
+  caminho: string
+  nome: string
 }

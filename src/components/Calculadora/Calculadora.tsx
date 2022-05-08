@@ -1,6 +1,6 @@
-import React,{ useState } from "react";
-import Parser from "html-react-parser";
-import { ICalculadora } from "../../interfaces/props/ICalculadora";
+import React, { useState } from 'react'
+import Parser from 'html-react-parser'
+import { ICalculadora } from '../../interfaces/props/ICalculadora'
 import {
   Form,
   Row,
@@ -9,27 +9,33 @@ import {
   Tooltip,
   Col,
   Accordion,
-} from "react-bootstrap";
-import {ResultadoCalculadora,Alert} from "./../";
+} from 'react-bootstrap'
+import { ResultadoCalculadora, Alert } from './../'
 
 const Calculadora = () => {
-  const props: ICalculadora = {bFlExibirResultado: false,
-      resultCount: 0,
-      medicaoAnterior: 0,
-      medicaoAtual: 0,
-      valorKwh: 0,
-      bandeira: 0,
-      valorIMCS: 0,
-      valorPISPASEP: 0,
-      valorCOFINS: 0}
-  const [calcState, setCalcState] = useState(props);
+  const props: ICalculadora = {
+    bFlExibirResultado: false,
+    resultCount: 0,
+    medicaoAnterior: 0,
+    medicaoAtual: 0,
+    valorKwh: 0,
+    bandeira: 0,
+    valorIMCS: 0,
+    valorPISPASEP: 0,
+    valorCOFINS: 0,
+  }
+  const [calcState, setCalcState] = useState(props)
 
   const handlerChange = (value: any, nome: string) => {
-    const name = nome as keyof typeof calcState;
-    setCalcState({...calcState , [name]: value });
-  };
+    const name = nome as keyof typeof calcState
+    setCalcState({ ...calcState, [name]: value })
+  }
 
-    const renderFormGroup = (titulo: string, state: string, tootlipText: string) => (
+  const renderFormGroup = (
+    titulo: string,
+    state: string,
+    tootlipText: string,
+  ) => (
     <Form.Group className="mb-3">
       <Form.Label>{titulo}</Form.Label>
       <OverlayTrigger
@@ -45,98 +51,100 @@ const Calculadora = () => {
         />
       </OverlayTrigger>
     </Form.Group>
-  );
+  )
 
-  const renderTooltip = (msg: string) => <Tooltip id="button-tooltip">{Parser(msg)}</Tooltip>;
-    return (
-       <React.Fragment>
-       <Alert
-          bFlShowAlert={true}
-          variant="warning"
-          titulo="Aviso"
-          msg="Os valores apresentados não são 100% precisos"
-        ></Alert>
-          <Form>
-            <Card>
-              <Card.Body>
-                <Row className="mx-0">
-                  {renderFormGroup(
-                    "Medição anterior",
-                    "medicaoAnterior",
-                    "Quantidade de Khw da ultima medição feita pela concessionária"
-                  )}
-                  {renderFormGroup(
-                    "Medição atual",
-                    "medicaoAtual",
-                    "Quantidade Kwh atual do medidor"
-                  )}
+  const renderTooltip = (msg: string) => (
+    <Tooltip id="button-tooltip">{Parser(msg)}</Tooltip>
+  )
+  return (
+    <React.Fragment>
+      <Alert
+        bFlShowAlert={true}
+        variant="warning"
+        titulo="Aviso"
+        msg="Os valores apresentados não são 100% precisos"
+      ></Alert>
+      <Form>
+        <Card>
+          <Card.Body>
+            <Row className="mx-0">
+              {renderFormGroup(
+                'Medição anterior',
+                'medicaoAnterior',
+                'Quantidade de Khw da ultima medição feita pela concessionária',
+              )}
+              {renderFormGroup(
+                'Medição atual',
+                'medicaoAtual',
+                'Quantidade Kwh atual do medidor',
+              )}
 
-                  <Form.Group className="mb-3">
-                    <Form.Label>Bandeira</Form.Label>
-                    <OverlayTrigger
-                      placement="top"
-                      delay={{ show: 250, hide: 400 }}
-                      overlay={renderTooltip(
-                        "Bandeira de cobrança:  <br/ >Verde: R$0,00 <br/ > Amarela: R$1,87  <br/ >Vermelha 1: R$3,97  <br/ >Vermelha 2: R$9,49  <br/ >Escassez Hídrica: R$14,20"
-                      )}
-                    >
-                      <Form.Select
-                        value={calcState.bandeira}
-                        onChange={(e) =>
-                          handlerChange(parseInt(e.target.value), "bandeira")
-                        }
-                      >
-                        <option value="0">Verde</option>
-                        <option value="1">Amarela</option>
-                        <option value="2">Vermelha 1</option>
-                        <option value="3">Vermelha 2</option>
-                        <option value="4">Escassez Hídrica</option>
-                      </Form.Select>
-                    </OverlayTrigger>
-                  </Form.Group>
-                  <Accordion>
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>
-                        Opcional (Dados para os cálculos)
-                      </Accordion.Header>
-                      <Accordion.Body>
-                        <Row>
-                          <Col>
-                            {renderFormGroup(
-                              "Tarifa sem Tributos (R$)",
-                              "valorKwh",
-                              "Valor do Kwh"
-                            )}
-                            {renderFormGroup(
-                              "Aliquota ICMS (%)",
-                              "valorIMCS",
-                              "Porcentagem do ICMS"
-                            )}
-                          </Col>
-                          <Col>
-                            {renderFormGroup(
-                              "Aliquota PIS/PASEP (%)",
-                              "valorPISPASEP",
-                              "Aliquota PIS/PASEP (%)"
-                            )}
-                            {renderFormGroup(
-                              "Aliquota COFINS (%)",
-                              "valorCOFINS",
-                              "Aliquota COFINS (%)"
-                            )}
-                          </Col>
-                        </Row>
-                      </Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion>
-                </Row>
-              </Card.Body>
-            </Card>
-            <br />
-            <ResultadoCalculadora objInputs={calcState}></ResultadoCalculadora>
-          </Form>
-      </React.Fragment>
-    );
+              <Form.Group className="mb-3">
+                <Form.Label>Bandeira</Form.Label>
+                <OverlayTrigger
+                  placement="top"
+                  delay={{ show: 250, hide: 400 }}
+                  overlay={renderTooltip(
+                    'Bandeira de cobrança:  <br/ >Verde: R$0,00 <br/ > Amarela: R$1,87  <br/ >Vermelha 1: R$3,97  <br/ >Vermelha 2: R$9,49  <br/ >Escassez Hídrica: R$14,20',
+                  )}
+                >
+                  <Form.Select
+                    value={calcState.bandeira}
+                    onChange={(e) =>
+                      handlerChange(parseInt(e.target.value), 'bandeira')
+                    }
+                  >
+                    <option value="0">Verde</option>
+                    <option value="1">Amarela</option>
+                    <option value="2">Vermelha 1</option>
+                    <option value="3">Vermelha 2</option>
+                    <option value="4">Escassez Hídrica</option>
+                  </Form.Select>
+                </OverlayTrigger>
+              </Form.Group>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>
+                    Opcional (Dados para os cálculos)
+                  </Accordion.Header>
+                  <Accordion.Body>
+                    <Row>
+                      <Col>
+                        {renderFormGroup(
+                          'Tarifa sem Tributos (R$)',
+                          'valorKwh',
+                          'Valor do Kwh',
+                        )}
+                        {renderFormGroup(
+                          'Aliquota ICMS (%)',
+                          'valorIMCS',
+                          'Porcentagem do ICMS',
+                        )}
+                      </Col>
+                      <Col>
+                        {renderFormGroup(
+                          'Aliquota PIS/PASEP (%)',
+                          'valorPISPASEP',
+                          'Aliquota PIS/PASEP (%)',
+                        )}
+                        {renderFormGroup(
+                          'Aliquota COFINS (%)',
+                          'valorCOFINS',
+                          'Aliquota COFINS (%)',
+                        )}
+                      </Col>
+                    </Row>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            </Row>
+          </Card.Body>
+        </Card>
+        <br />
+        <ResultadoCalculadora objInputs={calcState}></ResultadoCalculadora>
+      </Form>
+    </React.Fragment>
+  )
 }
 
-export default Calculadora;
+export default Calculadora
