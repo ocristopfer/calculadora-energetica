@@ -74,10 +74,10 @@ const ResultadoCalculadora = ({ objInputs }: any) => {
 
   return (
     <>
-      <Card>
+      <Card className="mt-3">
         <Card.Body>
-          <div className="d-flex flex-row bd-highlight mb-3 justify-content-center flex-wrap ">
-            <div className="d-flex flex-column bd-highlight mb-3">
+          <div className="d-flex flex-row bd-highlight justify-content-center flex-wrap ">
+            <div className="d-flex flex-column bd-highlight">
               <div>
                 <span>Total Consumido (Kwh): </span>
                 <span>{totalKwh}</span>

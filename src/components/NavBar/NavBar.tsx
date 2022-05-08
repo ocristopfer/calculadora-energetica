@@ -1,5 +1,6 @@
 import { Navbar, Container, Nav } from 'react-bootstrap'
 import styles from './NavBar.module.css'
+import { ReactComponent as Logo } from './../../assets/energy.svg'
 import { ReactComponent as GitHubLogo } from './../../assets/github-logo.svg'
 import { IRotas } from '../../interfaces/props/IRotas'
 
@@ -17,7 +18,8 @@ const NavBar: React.FC<any> = (props) => {
     <>
       <Navbar variant="dark" className={styles.navBar} expand="lg">
         <Container>
-          <Navbar.Brand href="#home">Calculadora Ligth</Navbar.Brand>
+          <Logo className="m-2" />
+          <Navbar.Brand href="#home">Calculadora</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">{menu}</Nav>

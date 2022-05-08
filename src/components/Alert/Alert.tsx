@@ -13,7 +13,12 @@ const AlertDismissibleExample = ({
   return (
     <>
       {show ? (
-        <Alert variant={variant} onClose={() => setShow(false)} dismissible>
+        <Alert
+          className="mt-3"
+          variant={variant}
+          onClose={() => setShow(false)}
+          dismissible
+        >
           <Alert.Heading>{Parser(titulo)}</Alert.Heading>
           {Parser(msg)}
         </Alert>

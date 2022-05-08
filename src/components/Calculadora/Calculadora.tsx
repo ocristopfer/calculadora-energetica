@@ -58,15 +58,13 @@ const Calculadora = () => {
   )
   return (
     <React.Fragment>
-      <br />
       <Alert
         bFlShowAlert={true}
         variant="warning"
         titulo="Aviso"
-        msg="Os valores apresentados não são 100% precisos"
+        msg="Os valores apresentados não são 100% precisos <p>Obs: Usados cálculos base da light"
       ></Alert>
-      <br />
-      <Form>
+      <Form className="mt-3">
         <Card>
           <Card.Body>
             <Row className="mx-0">
@@ -142,7 +140,6 @@ const Calculadora = () => {
             </Row>
           </Card.Body>
         </Card>
-        <br />
         <ResultadoCalculadora objInputs={calcState}></ResultadoCalculadora>
       </Form>
     </React.Fragment>
