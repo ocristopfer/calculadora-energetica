@@ -15,18 +15,19 @@ const NavBar: React.FC<any> = (props) => {
   }
   return (
     <>
-      <Navbar variant="dark" className={styles.navBar}>
+      <Navbar variant="dark" className={styles.navBar} expand="lg">
         <Container>
           <Navbar.Brand href="#home">Calculadora Ligth</Navbar.Brand>
-          <Nav className="me-auto">
-            {menu}
-            <Nav.Link
-              target="_blank"
-              href="https://github.com/ocristopfer/calculadora-ligth"
-            >
-              <GitHubLogo />
-            </Nav.Link>
-          </Nav>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">{menu}</Nav>
+          </Navbar.Collapse>
+          <Nav.Link
+            target="_blank"
+            href="https://github.com/ocristopfer/calculadora-ligth"
+          >
+            <GitHubLogo />
+          </Nav.Link>
         </Container>
       </Navbar>
     </>

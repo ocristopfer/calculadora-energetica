@@ -58,12 +58,14 @@ const Calculadora = () => {
   )
   return (
     <React.Fragment>
+      <br />
       <Alert
         bFlShowAlert={true}
         variant="warning"
         titulo="Aviso"
         msg="Os valores apresentados não são 100% precisos"
       ></Alert>
+      <br />
       <Form>
         <Card>
           <Card.Body>
