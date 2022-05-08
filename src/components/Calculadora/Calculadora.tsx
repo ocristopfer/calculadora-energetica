@@ -1,6 +1,7 @@
-import React from "react";
+import React,{ useState } from "react";
+import Parser from "html-react-parser";
+import { ICalculadora } from "../../interfaces/props/ICalculadora";
 import {
-  Container,
   Form,
   Row,
   Card,
@@ -9,14 +10,10 @@ import {
   Col,
   Accordion,
 } from "react-bootstrap";
-import Parser from "html-react-parser";
-import { Result, Alert } from "./../";
+import {ResultadoCalculadora,Alert} from "./../";
 
-class Inputs extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bFlExibirResultado: false,
+const Calculadora = () => {
+  const props: ICalculadora = {bFlExibirResultado: false,
       resultCount: 0,
       medicaoAnterior: 0,
       medicaoAtual: 0,
@@ -24,56 +21,51 @@ class Inputs extends React.Component {
       bandeira: 0,
       valorIMCS: 0,
       valorPISPASEP: 0,
-      valorCOFINS: 0,
-    };
-  }
+      valorCOFINS: 0}
+  const [calcState, setCalcState] = useState(props);
 
-  handlerChange = (value, nome) => {
-    this.setState({ [nome]: value });
+  const handlerChange = (value: any, nome: string) => {
+    const name = nome as keyof typeof calcState;
+    setCalcState({...calcState , [name]: value });
   };
 
-  renderFormGroup = (titulo, state, tootlipText) => (
+    const renderFormGroup = (titulo: string, state: string, tootlipText: string) => (
     <Form.Group className="mb-3">
       <Form.Label>{titulo}</Form.Label>
       <OverlayTrigger
         placement="top"
         delay={{ show: 250, hide: 400 }}
-        overlay={this.renderTooltip(tootlipText)}
+        overlay={renderTooltip(tootlipText)}
       >
         <Form.Control
-          sm="10"
           type="number"
           placeholder={titulo}
-          value={this.state[state]}
-          onChange={(e) => this.handlerChange(e.target.value, state)}
+          value={(calcState as any)[state]}
+          onChange={(e) => handlerChange(parseFloat(e.target.value), state)}
         />
       </OverlayTrigger>
     </Form.Group>
   );
-  renderTooltip = (msg) => <Tooltip id="button-tooltip">{Parser(msg)}</Tooltip>;
 
-  render() {
-    const { resultCount } = this.state;
-    const objInputs = this.state;
+  const renderTooltip = (msg: string) => <Tooltip id="button-tooltip">{Parser(msg)}</Tooltip>;
     return (
-      <>
-        <Alert
+       <React.Fragment>
+       <Alert
           bFlShowAlert={true}
           variant="warning"
           titulo="Aviso"
           msg="Os valores apresentados não são 100% precisos"
         ></Alert>
-        <Container>
           <Form>
             <Card>
               <Card.Body>
                 <Row className="mx-0">
-                  {this.renderFormGroup(
+                  {renderFormGroup(
                     "Medição anterior",
                     "medicaoAnterior",
                     "Quantidade de Khw da ultima medição feita pela concessionária"
                   )}
-                  {this.renderFormGroup(
+                  {renderFormGroup(
                     "Medição atual",
                     "medicaoAtual",
                     "Quantidade Kwh atual do medidor"
@@ -84,14 +76,14 @@ class Inputs extends React.Component {
                     <OverlayTrigger
                       placement="top"
                       delay={{ show: 250, hide: 400 }}
-                      overlay={this.renderTooltip(
+                      overlay={renderTooltip(
                         "Bandeira de cobrança:  <br/ >Verde: R$0,00 <br/ > Amarela: R$1,87  <br/ >Vermelha 1: R$3,97  <br/ >Vermelha 2: R$9,49  <br/ >Escassez Hídrica: R$14,20"
                       )}
                     >
                       <Form.Select
-                        value={this.state.bandeira}
+                        value={calcState.bandeira}
                         onChange={(e) =>
-                          this.handlerChange(e.target.value, "bandeira")
+                          handlerChange(parseInt(e.target.value), "bandeira")
                         }
                       >
                         <option value="0">Verde</option>
@@ -110,24 +102,24 @@ class Inputs extends React.Component {
                       <Accordion.Body>
                         <Row>
                           <Col>
-                            {this.renderFormGroup(
+                            {renderFormGroup(
                               "Tarifa sem Tributos (R$)",
                               "valorKwh",
                               "Valor do Kwh"
                             )}
-                            {this.renderFormGroup(
+                            {renderFormGroup(
                               "Aliquota ICMS (%)",
                               "valorIMCS",
                               "Porcentagem do ICMS"
                             )}
                           </Col>
                           <Col>
-                            {this.renderFormGroup(
+                            {renderFormGroup(
                               "Aliquota PIS/PASEP (%)",
                               "valorPISPASEP",
                               "Aliquota PIS/PASEP (%)"
                             )}
-                            {this.renderFormGroup(
+                            {renderFormGroup(
                               "Aliquota COFINS (%)",
                               "valorCOFINS",
                               "Aliquota COFINS (%)"
@@ -141,11 +133,10 @@ class Inputs extends React.Component {
               </Card.Body>
             </Card>
             <br />
-            <Result key={resultCount} objInputs={objInputs}></Result>
+            <ResultadoCalculadora objInputs={calcState}></ResultadoCalculadora>
           </Form>
-        </Container>
-      </>
+      </React.Fragment>
     );
-  }
 }
-export default Inputs;
+
+export default Calculadora;
