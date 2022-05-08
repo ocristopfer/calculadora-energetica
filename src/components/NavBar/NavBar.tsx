@@ -18,8 +18,8 @@ const NavBar: React.FC<any> = (props) => {
       <Navbar variant="dark" className={styles.navBar}>
         <Container>
           <Navbar.Brand href="#home">Calculadora Ligth</Navbar.Brand>
-          <Nav className="me-auto">{menu}</Nav>
-          <Nav className="justify-content-end">
+          <Nav className="me-auto">
+            {menu}
             <Nav.Link
               target="_blank"
               href="https://github.com/ocristopfer/calculadora-ligth"
