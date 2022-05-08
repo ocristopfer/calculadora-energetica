@@ -19,7 +19,7 @@ const NavBar: React.FC<any> = (props) => {
       <Navbar variant="dark" className={styles.navBar} expand="lg">
         <Container>
           <Logo className="m-2" />
-          <Navbar.Brand href="#home">Calculadora</Navbar.Brand>
+          <Navbar.Brand href="/">Calculadora</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">{menu}</Nav>

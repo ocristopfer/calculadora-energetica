@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# Calculadora Energética
+
+Projeto com intuido de calcular o valor da conta de luz.
+
+[Calculadora (Heroku Deploy)](https://calculadora-ligth.herokuapp.com/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
