@@ -13,13 +13,19 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
     valorIMCS,
     valorPISPASEP,
     valorCOFINS,
+    valorTaxaDeIluminacao,
   } = objCalculadora
 
   let totalKwh = 0,
-    valorConsumido = 0,
+    valorConsumidoSemTaxa = 0,
+    valorConsumidoComTaxa = 0,
     valorBandeira = 0,
     valorTaxaIluminacao = 0,
-    valorTotal = 0
+    valorTotal = 0,
+    valorTotalICMS = 0,
+    valorTotalPisPasep = 0,
+    valorTotalCOFINS = 0,
+    valorKwComTaxas = 0
 
   const getValorBandeira = () => {
     if (bandeira === 1) return 1.87
@@ -31,9 +37,9 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
 
   const getValorTarifa = () => {
     let valor = checkAndReturnValue(valorKwh, 0.8022)
-    valor += (valor * checkAndReturnValue(valorIMCS, getICMS())) / 100
     valor += (valor * checkAndReturnValue(valorPISPASEP, 0.65)) / 100
     valor += (valor * checkAndReturnValue(valorCOFINS, 3)) / 100
+    valor += (valor * checkAndReturnValue(valorIMCS, getICMS())) / 100
     return parseFloat(valor)
   }
 
@@ -67,40 +73,116 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
   }
 
   totalKwh = medicaoAtual - medicaoAnterior
-  valorConsumido = totalKwh * getValorTarifa()
+  if (bandeira !== 0)
+    valorBandeira = getValorBandeira() * Math.round(totalKwh / 100)
 
-  if (bandeira !== 0) valorBandeira = getValorBandeira() * (totalKwh / 100)
+  valorConsumidoSemTaxa = totalKwh * checkAndReturnValue(valorKwh, 0.8022)
 
-  valorTaxaIluminacao = getTaxaIluminacao()
-  valorTotal = valorConsumido + valorBandeira + valorTaxaIluminacao
+  valorKwComTaxas =
+    checkAndReturnValue(valorKwh, 0.8022) +
+    checkAndReturnValue(valorPISPASEP, 0.65) / 100 +
+    checkAndReturnValue(valorCOFINS, 3) / 100 +
+    checkAndReturnValue(valorIMCS, getICMS()) / 100
+  //getValorBandeira() / 100
+  console.log(totalKwh, valorKwComTaxas)
+  valorConsumidoComTaxa = totalKwh * valorKwComTaxas
+
+  valorKwComTaxas += getValorBandeira() / 100
+  valorTotalPisPasep =
+    totalKwh *
+    ((checkAndReturnValue(valorKwh, 0.8022) *
+      checkAndReturnValue(valorPISPASEP, 0.65)) /
+      100)
+
+  valorTotalCOFINS =
+    totalKwh *
+    ((checkAndReturnValue(valorKwh, 0.8022) *
+      checkAndReturnValue(valorCOFINS, 3)) /
+      100)
+
+  valorTotalICMS =
+    totalKwh *
+    ((checkAndReturnValue(valorKwh, 0.8022) *
+      checkAndReturnValue(valorIMCS, getICMS())) /
+      100)
+
+  valorTaxaIluminacao = checkAndReturnValue(
+    valorTaxaDeIluminacao,
+    getTaxaIluminacao(),
+  )
+  valorTotal += valorConsumidoComTaxa + valorTaxaIluminacao + valorBandeira
 
   return (
     <>
       <Card className="mt-3">
         <Card.Body>
           <div className="d-flex flex-row bd-highlight justify-content-center flex-wrap ">
-            <div className="d-flex flex-column bd-highlight">
-              <div>
-                <span>Total Consumido (Kwh): </span>
-                <span>{totalKwh}</span>
-              </div>
-              <div>
-                <span>Valor Consumido: </span>
-                <span>R${valorConsumido.toFixed(2)}</span>
-              </div>
-              <div>
-                <span>Valor Total: </span>
-                <span>R${valorTotal.toFixed(2)}</span>
-              </div>
+            <div className="d-flex flex-column m-2 bd-highlight">
+              <Card>
+                <Card.Header>Totais</Card.Header>
+                <Card.Body>
+                  <div>
+                    <span>Total Consumido (Kwh): </span>
+                    <span>{totalKwh}</span>
+                  </div>
+                  <div>
+                    <span>Valor Consumido (Sem taxas): </span>
+                    <span>R${valorConsumidoSemTaxa.toFixed(2)}</span>
+                  </div>
+                  <div>
+                    <span>Valor Consumido: </span>
+                    <span>R${valorConsumidoComTaxa.toFixed(2)}</span>
+                  </div>
+                  <div>
+                    <span>Valor Total: </span>
+                    <span>R${valorTotal.toFixed(2)}</span>
+                  </div>
 
-              <div>
-                <span>Bandeira: </span>
-                <span>R${valorBandeira.toFixed(2)}</span>
-              </div>
-              <div>
-                <span>Taxa Iluminacao: </span>
-                <span>R${valorTaxaIluminacao.toFixed(2)}</span>
-              </div>
+                  <div>
+                    <span>Taxa Iluminacao: </span>
+                    <span>R${valorTaxaIluminacao.toFixed(2)}</span>
+                  </div>
+                </Card.Body>
+              </Card>
+            </div>
+            <div className="d-flex flex-column m-2 bd-highlight">
+              <Card>
+                <Card.Header>Taxas</Card.Header>
+                <Card.Body>
+                  <div>
+                    <span>Valor kw: </span>
+                    <span>
+                      R$
+                      {valorKwComTaxas.toFixed(8)}
+                    </span>
+                  </div>
+                  <div>
+                    <span>Total IMCS: </span>
+                    <span>
+                      R$
+                      {valorTotalICMS.toFixed(2)}
+                    </span>
+                  </div>
+                  <div>
+                    <span>Total PIS/PASEP: </span>
+                    <span>
+                      R$
+                      {valorTotalPisPasep.toFixed(2)}
+                    </span>
+                  </div>
+                  <div>
+                    <span>Total COFINS: </span>
+                    <span>
+                      R$
+                      {valorTotalCOFINS.toFixed(2)}
+                    </span>
+                    <div>
+                      <span>Total Bandeira: </span>
+                      <span>R${valorBandeira.toFixed(2)}</span>
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
             </div>
           </div>
         </Card.Body>

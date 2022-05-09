@@ -23,6 +23,7 @@ const Calculadora = () => {
     valorIMCS: 0,
     valorPISPASEP: 0,
     valorCOFINS: 0,
+    valorTaxaDeIluminacao: 0,
   }
   const [calcState, setCalcState] = useState(props)
   const handlerChange = (value: any, nome: string) => {
@@ -135,6 +136,18 @@ const Calculadora = () => {
                           'valorCOFINS',
                           'Aliquota COFINS (%)',
                         )}
+                      </Col>
+                      <Col>
+                        {renderFormGroup(
+                          'Taxa de Iluminação (R$)',
+                          'valorTaxaDeIluminacao',
+                          'Taxa de Iluminação (R$)',
+                        )}
+                        {/* {renderFormGroup(
+                          'Juros',
+                          'valorJuros',
+                          'Aliquota COFINS (%)',
+                        )} */}
                       </Col>
                     </Row>
                   </Accordion.Body>

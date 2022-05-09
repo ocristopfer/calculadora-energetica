@@ -8,4 +8,5 @@ export interface ICalculadora {
   valorIMCS: number
   valorPISPASEP: number
   valorCOFINS: number
+  valorTaxaDeIluminacao: number
 }
