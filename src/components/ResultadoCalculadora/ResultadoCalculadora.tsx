@@ -35,16 +35,9 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
     return 0
   }
 
-  const getValorTarifa = () => {
-    let valor = checkAndReturnValue(valorKwh, 0.8022)
-    valor += (valor * checkAndReturnValue(valorPISPASEP, 0.65)) / 100
-    valor += (valor * checkAndReturnValue(valorCOFINS, 3)) / 100
-    valor += (valor * checkAndReturnValue(valorIMCS, getICMS())) / 100
-    return parseFloat(valor)
-  }
-
   const checkAndReturnValue = (value: any, _default: any) => {
-    if (value !== 0 && value !== '') return parseFloat(value)
+    if (value !== 0 && value !== '' && !Number.isNaN(Number(value)))
+      return parseFloat(value)
     return _default
   }
 
@@ -72,7 +65,10 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
     return 0
   }
 
-  totalKwh = medicaoAtual - medicaoAnterior
+  totalKwh =
+    (!Number.isNaN(medicaoAtual) ? medicaoAtual : 0) -
+    (!Number.isNaN(medicaoAnterior) ? medicaoAnterior : 0)
+
   if (bandeira !== 0)
     valorBandeira = getValorBandeira() * Math.round(totalKwh / 100)
 
@@ -112,12 +108,17 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
   )
   valorTotal += valorConsumidoComTaxa + valorTaxaIluminacao + valorBandeira
 
+  var formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+
   return (
     <>
       <Card className="mt-3">
         <Card.Body>
-          <div className="d-flex flex-row bd-highlight justify-content-center flex-wrap ">
-            <div className="d-flex flex-column m-2 bd-highlight">
+          <div className="row d-flex flex-row bd-highlight justify-content-center flex-wrap">
+            <div className="d-flex flex-column mt-1 bd-highlight col-lg-6">
               <Card>
                 <Card.Header>Totais</Card.Header>
                 <Card.Body>
@@ -127,58 +128,45 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
                   </div>
                   <div>
                     <span>Valor Consumido (Sem taxas): </span>
-                    <span>R${valorConsumidoSemTaxa.toFixed(2)}</span>
+                    <span>{formatter.format(valorConsumidoSemTaxa)}</span>
                   </div>
                   <div>
                     <span>Valor Consumido: </span>
-                    <span>R${valorConsumidoComTaxa.toFixed(2)}</span>
+                    <span>{formatter.format(valorConsumidoComTaxa)}</span>
                   </div>
                   <div>
                     <span>Valor Total: </span>
-                    <span>R${valorTotal.toFixed(2)}</span>
+                    <span>{formatter.format(valorTotal)}</span>
                   </div>
-
                   <div>
                     <span>Taxa Iluminacao: </span>
-                    <span>R${valorTaxaIluminacao.toFixed(2)}</span>
+                    <span>{formatter.format(valorTaxaIluminacao)}</span>
                   </div>
                 </Card.Body>
               </Card>
             </div>
-            <div className="d-flex flex-column m-2 bd-highlight">
+            <div className="d-flex flex-column mt-1 bd-highlight col-lg-6">
               <Card>
                 <Card.Header>Taxas</Card.Header>
                 <Card.Body>
                   <div>
                     <span>Valor kw: </span>
-                    <span>
-                      R$
-                      {valorKwComTaxas.toFixed(8)}
-                    </span>
+                    <span>{formatter.format(valorKwComTaxas)}</span>
                   </div>
                   <div>
                     <span>Total IMCS: </span>
-                    <span>
-                      R$
-                      {valorTotalICMS.toFixed(2)}
-                    </span>
+                    <span>{formatter.format(valorTotalICMS)}</span>
                   </div>
                   <div>
                     <span>Total PIS/PASEP: </span>
-                    <span>
-                      R$
-                      {valorTotalPisPasep.toFixed(2)}
-                    </span>
+                    <span>{formatter.format(valorTotalPisPasep)}</span>
                   </div>
                   <div>
                     <span>Total COFINS: </span>
-                    <span>
-                      R$
-                      {valorTotalCOFINS.toFixed(2)}
-                    </span>
+                    <span>{formatter.format(valorTotalCOFINS)}</span>
                     <div>
                       <span>Total Bandeira: </span>
-                      <span>R${valorBandeira.toFixed(2)}</span>
+                      <span>{formatter.format(valorBandeira)}</span>
                     </div>
                   </div>
                 </Card.Body>

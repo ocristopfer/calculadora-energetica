@@ -28,10 +28,7 @@ const Calculadora = () => {
   const [calcState, setCalcState] = useState(props)
   const handlerChange = (value: any, nome: string) => {
     const name = nome as keyof typeof calcState
-    setCalcState({
-      ...calcState,
-      [name]: value !== '' && !Number.isNaN(value) ? value : 0,
-    })
+    setCalcState({ ...calcState, [name]: value })
   }
 
   const renderFormGroup = (
