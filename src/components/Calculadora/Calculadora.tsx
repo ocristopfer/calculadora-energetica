@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Parser from 'html-react-parser'
+import styles from './Calculadora.module.css'
 import { ICalculadora } from '../../interfaces/props/ICalculadora'
 import {
   Form,
@@ -36,7 +37,7 @@ const Calculadora = () => {
     state: string,
     tootlipText: string,
   ) => (
-    <Form.Group className="mb-3">
+    <Form.Group className={styles.minWidth}>
       <Form.Label>{titulo}</Form.Label>
       <OverlayTrigger
         placement="top"
@@ -110,7 +111,7 @@ const Calculadora = () => {
                   </Accordion.Header>
                   <Accordion.Body>
                     <Row>
-                      <Col>
+                      <Col className={styles.minWidth}>
                         {renderFormGroup(
                           'Tarifa sem Tributos (R$)',
                           'valorKwh',
@@ -122,7 +123,7 @@ const Calculadora = () => {
                           'Porcentagem do ICMS',
                         )}
                       </Col>
-                      <Col>
+                      <Col className={styles.minWidth}>
                         {renderFormGroup(
                           'Aliquota PIS/PASEP (%)',
                           'valorPISPASEP',
@@ -134,7 +135,7 @@ const Calculadora = () => {
                           'Aliquota COFINS (%)',
                         )}
                       </Col>
-                      <Col>
+                      <Col className={styles.minWidth}>
                         {renderFormGroup(
                           'Taxa de Iluminação (R$)',
                           'valorTaxaDeIluminacao',

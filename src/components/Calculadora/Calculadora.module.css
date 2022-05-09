@@ -1,6 +1,3 @@
-.form{
-    min-width: 350px;
-}
-.fixCheckBox{
-text-align: start;
+.minWidth{
+    min-width: 120px;
 }
