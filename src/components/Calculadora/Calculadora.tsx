@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Parser from 'html-react-parser'
 import { ICalculadora } from '../../interfaces/props/ICalculadora'
 import {
@@ -25,10 +25,12 @@ const Calculadora = () => {
     valorCOFINS: 0,
   }
   const [calcState, setCalcState] = useState(props)
-
   const handlerChange = (value: any, nome: string) => {
     const name = nome as keyof typeof calcState
-    setCalcState({ ...calcState, [name]: value })
+    setCalcState({
+      ...calcState,
+      [name]: value !== '' && !Number.isNaN(value) ? value : 0,
+    })
   }
 
   const renderFormGroup = (
@@ -48,6 +50,7 @@ const Calculadora = () => {
           placeholder={titulo}
           value={(calcState as any)[state]}
           onChange={(e) => handlerChange(parseFloat(e.target.value), state)}
+          min={0}
         />
       </OverlayTrigger>
     </Form.Group>
@@ -57,7 +60,7 @@ const Calculadora = () => {
     <Tooltip id="button-tooltip">{Parser(msg)}</Tooltip>
   )
   return (
-    <React.Fragment>
+    <>
       <Alert
         bFlShowAlert={true}
         variant="warning"
@@ -140,9 +143,9 @@ const Calculadora = () => {
             </Row>
           </Card.Body>
         </Card>
-        <ResultadoCalculadora objInputs={calcState}></ResultadoCalculadora>
+        <ResultadoCalculadora objCalculadora={calcState}></ResultadoCalculadora>
       </Form>
-    </React.Fragment>
+    </>
   )
 }
 

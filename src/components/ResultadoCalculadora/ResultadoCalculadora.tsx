@@ -2,8 +2,9 @@ import React from 'react'
 import { Card } from 'react-bootstrap'
 import { ICalculadora } from '../../interfaces/props/ICalculadora'
 
-const ResultadoCalculadora = ({ objInputs }: any) => {
-  console.log(objInputs)
+const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
+  objCalculadora,
+}) => {
   const {
     bandeira,
     valorKwh,
@@ -12,7 +13,7 @@ const ResultadoCalculadora = ({ objInputs }: any) => {
     valorIMCS,
     valorPISPASEP,
     valorCOFINS,
-  }: ICalculadora = objInputs
+  } = objCalculadora
 
   let totalKwh = 0,
     valorConsumido = 0,

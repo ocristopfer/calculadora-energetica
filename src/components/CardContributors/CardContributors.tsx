@@ -1,6 +1,5 @@
 import { Figure } from 'react-bootstrap'
 import { ICardContributors } from '../../interfaces/props/ICardContributors'
-import { ReactComponent as EmptyImg } from './../../assets/empty.svg'
 
 const CardContributors = (props: any) => {
   let CardContributors = props.CardContributors as ICardContributors

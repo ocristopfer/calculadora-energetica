@@ -4,9 +4,12 @@ import { ReactComponent as Logo } from './../../assets/energy.svg'
 import { ReactComponent as GitHubLogo } from './../../assets/github-logo.svg'
 import { IRotas } from '../../interfaces/props/IRotas'
 
-const NavBar: React.FC<any> = (props) => {
-  let menu: Array<any> = [<Nav.Link href="/">Home</Nav.Link>]
-  let rotas = props.rotas as IRotas[]
+const NavBar: React.FC<{ rotas: Array<IRotas> }> = ({ rotas }) => {
+  let menu: Array<any> = [
+    <Nav.Link key={0} href="/">
+      Home
+    </Nav.Link>,
+  ]
   if (rotas.length > 0) {
     menu = rotas.map((rota) => (
       <Nav.Link key={rota.key} href={rota.caminho}>

@@ -8,12 +8,12 @@ import { Calculadora, NavBar } from './components'
 import { Container } from 'react-bootstrap'
 import { IRotas } from './interfaces/props/IRotas'
 
-function App() {
-  let rotas = [
+const App = () => {
+  let rotas: Array<IRotas> = [
     { key: 0, caminho: '/', nome: 'Home' },
     { key: 1, caminho: '/about', nome: 'Sobre' },
     { key: 2, caminho: '/contact', nome: 'Contato' },
-  ] as IRotas[]
+  ]
 
   return (
     <>
