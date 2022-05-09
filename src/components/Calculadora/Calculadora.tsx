@@ -15,8 +15,6 @@ import { ResultadoCalculadora, Alert } from './../'
 
 const Calculadora = () => {
   const props: ICalculadora = {
-    bFlExibirResultado: false,
-    resultCount: 0,
     medicaoAnterior: 0,
     medicaoAtual: 0,
     valorKwh: 0,
@@ -29,7 +27,7 @@ const Calculadora = () => {
   const [calcState, setCalcState] = useState(props)
   const handlerChange = (value: any, nome: string) => {
     const name = nome as keyof typeof calcState
-    setCalcState({ ...calcState, [name]: value })
+    setCalcState({ ...calcState, [name]: Number.isNaN(value) ? '' : value })
   }
 
   const renderFormGroup = (

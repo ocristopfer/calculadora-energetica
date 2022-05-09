@@ -1,6 +1,4 @@
 export interface ICalculadora {
-  bFlExibirResultado: boolean
-  resultCount: number
   medicaoAnterior: number
   medicaoAtual: number
   valorKwh: number
