@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap'
 import CardContributors from '../CardContributors'
 
 const About = () => {
-  const GitHubAPI = `${process.env.REACT_APP_GITHUBAPI}repos/ocristopfer/bot-vector/contributors?anon=1`
+  const GitHubAPI = `${process.env.REACT_APP_GITHUBAPI}repos/ocristopfer/calculadora-energetica/contributors?anon=1`
   const [data, setData] = useState([])
 
   useEffect(() => {
