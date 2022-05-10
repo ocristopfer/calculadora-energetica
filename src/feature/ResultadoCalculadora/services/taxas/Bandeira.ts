@@ -1,6 +1,6 @@
-import { Kwh } from '..'
+import { ICalculadora } from 'types'
+import Kwh from '../Kwh'
 import { Cofins, Icms, Pis } from '.'
-import { ICalculadora } from '../../../../types'
 
 export default class Bandeira {
   private dadosACalcular: ICalculadora

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
-import { ICalculadora, ICalculadoraResponse } from '../../types'
+import { ICalculadora, ICalculadoraResponse } from 'types'
 import { Calculadora } from './services'
 
 const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
@@ -20,6 +20,7 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
   return (
     <>
       <Card className="mt-3">
+        <Card.Header>Resultado</Card.Header>
         <Card.Body>
           <div className="row d-flex flex-row bd-highlight justify-content-center flex-wrap">
             <div className="d-flex flex-column mt-1 bd-highlight col-lg-6">

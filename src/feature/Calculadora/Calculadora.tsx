@@ -1,20 +1,23 @@
+import AlertCustom from 'components/AlertCustom'
+import ResultadoCalculadora from 'feature/ResultadoCalculadora'
+import { namespaces } from 'i18n/i18n.constants'
 import { useState } from 'react'
-import Parser from 'html-react-parser'
-import styles from './Calculadora.module.css'
 import {
   Form,
-  Row,
-  Card,
   OverlayTrigger,
   Tooltip,
-  Col,
+  Card,
+  Row,
   Accordion,
+  Col,
 } from 'react-bootstrap'
-import AlertCustom from '../../components/AlertCustom'
-import ResultadoCalculadora from '../ResultadoCalculadora'
-import { ICalculadora } from '../../types'
+import { useTranslation } from 'react-i18next'
+import { ICalculadora } from 'types'
+import Parser from 'html-react-parser'
+import styles from './Calculadora.module.css'
 
 const Calculadora = () => {
+  const { t } = useTranslation(namespaces.components.caluladora)
   const props: ICalculadora = {
     medicaoAnterior: 0,
     medicaoAtual: 0,
@@ -71,6 +74,7 @@ const Calculadora = () => {
       ></AlertCustom>
       <Form className="mt-3">
         <Card>
+          <Card.Header>Calculadora</Card.Header>
           <Card.Body>
             <Row className="mx-0">
               {renderFormGroup(
@@ -110,7 +114,7 @@ const Calculadora = () => {
               <Accordion>
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>
-                    Opcional (Dados para os cálculos)
+                    Opcional (base dos cálculos)
                   </Accordion.Header>
                   <Accordion.Body>
                     <Row>

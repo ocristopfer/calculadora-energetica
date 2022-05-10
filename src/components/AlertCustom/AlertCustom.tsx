@@ -1,7 +1,7 @@
-import * as React from 'react'
+import React from 'react'
 import { Alert } from 'react-bootstrap'
-import Parser from 'html-react-parser'
 import { IAlert } from './AlertCustom.types'
+import Parser from 'html-react-parser'
 
 const AlertCustom = ({
   isVisible,

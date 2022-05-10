@@ -4,12 +4,15 @@ import { Home, About, Contact } from './pages'
 import { NavBar } from './components'
 import { Container } from 'react-bootstrap'
 import { IRotas } from './types'
+import { useTranslation } from 'react-i18next'
+import { namespaces } from './i18n/i18n.constants'
 
 const App = () => {
+  const { t } = useTranslation(namespaces.navbar)
   let rotas: Array<IRotas> = [
-    { key: 0, caminho: '/', nome: 'Home' },
-    { key: 1, caminho: '/about', nome: 'Sobre' },
-    { key: 2, caminho: '/contact', nome: 'Contato' },
+    { key: 0, caminho: '/', nome: t('inicio') },
+    { key: 1, caminho: '/about', nome: t('sobre') },
+    { key: 2, caminho: '/contact', nome: t('contato') },
   ]
 
   return (

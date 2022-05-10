@@ -1,6 +1,6 @@
-import { ICalculadora, ICalculadoraResponse } from '../../../types'
+import { ICalculadoraResponse, ICalculadora } from 'types'
 import { Kwh } from '.'
-import { Bandeira, Cofins, Icms, Pis, Iluminacao } from './taxas'
+import { Icms, Pis, Cofins, Bandeira, Iluminacao } from './taxas'
 
 export default class Calculadora {
   private objCalcRespos: ICalculadoraResponse

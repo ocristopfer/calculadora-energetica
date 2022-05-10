@@ -30,6 +30,12 @@ const About = () => {
     <>
       <React.Fragment>
         <Card className="mt-3">
+          <Card.Header>Sobre</Card.Header>
+          <Card.Body>
+            Todo: Aplicativo com a finalidade de conseguir medir a conta de luz
+          </Card.Body>
+        </Card>
+        <Card className="mt-3">
           <Card.Header>Lista de contribuidores</Card.Header>
           <Card.Body>
             {data.length > 0

@@ -1,6 +1,6 @@
-import { Cofins, Icms, Pis } from './taxas'
-import { ICalculadora } from '../../../types'
-import { NumberHelpers } from '../../../services/number'
+import { NumberHelpers } from 'services/number'
+import { ICalculadora } from 'types'
+import { Icms, Pis, Cofins } from './taxas'
 
 export default class Kwh {
   private valorPadrao: number = 0.8022
