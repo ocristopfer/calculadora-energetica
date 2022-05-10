@@ -1,12 +1,9 @@
 import React from 'react'
-import './App.css'
-import About from './components/About'
-import Contact from './components/Contact'
-
 import { Routes, Route } from 'react-router-dom'
-import { Calculadora, NavBar } from './components'
+import { Home, About, Contact } from './pages'
+import { NavBar } from './components'
 import { Container } from 'react-bootstrap'
-import { IRotas } from './interfaces/props/IRotas'
+import { IRotas } from './types'
 
 const App = () => {
   let rotas: Array<IRotas> = [
@@ -20,7 +17,7 @@ const App = () => {
       <NavBar rotas={rotas}></NavBar>
       <Container>
         <Routes>
-          <Route path="/" element={<Calculadora />} />
+          <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>

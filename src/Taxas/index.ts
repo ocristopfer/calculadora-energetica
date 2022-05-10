@@ -1,7 +1,0 @@
-export { default as Bandeira } from './Bandeira'
-export { default as Calculadora } from './Calculadora'
-export { default as Cofins } from './Cofins'
-export { default as Icms } from './Icms'
-export { default as Pis } from './Pis'
-export { default as Kwh } from './Kwh'
-export { default as Iluminacao } from './Iluminacao'

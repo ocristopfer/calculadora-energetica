@@ -2,7 +2,7 @@ import { Navbar, Container, Nav } from 'react-bootstrap'
 import styles from './NavBar.module.css'
 import { ReactComponent as Logo } from './../../assets/energy.svg'
 import { ReactComponent as GitHubLogo } from './../../assets/github-logo.svg'
-import { IRotas } from '../../interfaces/props/IRotas'
+import { IRotas } from '../../types'
 
 const NavBar: React.FC<{ rotas: Array<IRotas> }> = ({ rotas }) => {
   let menu: Array<any> = [

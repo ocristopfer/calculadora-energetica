@@ -1,0 +1,5 @@
+export { default as Bandeira } from './Bandeira'
+export { default as Cofins } from './Cofins'
+export { default as Icms } from './Icms'
+export { default as Pis } from './Pis'
+export { default as Iluminacao } from './Iluminacao'
