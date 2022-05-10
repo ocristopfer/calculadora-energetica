@@ -1,4 +1,4 @@
-import { ICalculadoraResponse, ICalculadora } from 'types'
+import { ICalculadoraResponse, ICalculadora } from '../../../types'
 import { Kwh } from '.'
 import { Icms, Pis, Cofins, Bandeira, Iluminacao } from './taxas'
 

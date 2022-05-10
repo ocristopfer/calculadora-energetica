@@ -1,5 +1,5 @@
-import { NumberHelpers } from 'services/number'
-import { ICalculadora } from 'types'
+import { NumberHelpers } from './../../../services/number'
+import { ICalculadora } from './../../../types'
 import { Icms, Pis, Cofins } from './taxas'
 
 export default class Kwh {

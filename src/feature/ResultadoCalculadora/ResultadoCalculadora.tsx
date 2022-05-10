@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
-import { ICalculadora, ICalculadoraResponse } from 'types'
+import { ICalculadora, ICalculadoraResponse } from '../../types'
 import { Calculadora } from './services'
 
 const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({

@@ -1,10 +1,12 @@
 import { Nav, Navbar, Container } from 'react-bootstrap'
-import { IRotas } from 'types'
+import { useLocation } from 'react-router-dom'
 import styles from './NavBar.module.css'
 import { ReactComponent as Logo } from './../../assets/energy.svg'
 import { ReactComponent as GitHubLogo } from './../../assets/github-logo.svg'
+import { IRotas } from '../../types'
 
 const NavBar: React.FC<{ rotas: Array<IRotas> }> = ({ rotas }) => {
+  const location = useLocation()
   let menu: Array<any> = [
     <Nav.Link key={0} href="/">
       Home
@@ -19,13 +21,15 @@ const NavBar: React.FC<{ rotas: Array<IRotas> }> = ({ rotas }) => {
   }
   return (
     <>
-      <Navbar variant="dark" className={styles.navBar} expand="lg">
+      <Navbar sticky="top" variant="dark" className={styles.navBar} expand="lg">
         <Container>
           <Logo className="m-2" />
           <Navbar.Brand href="/">Calculadora</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">{menu}</Nav>
+            <Nav className="me-auto" activeKey={location.pathname}>
+              {menu}
+            </Nav>
           </Navbar.Collapse>
           <Nav.Link
             target="_blank"

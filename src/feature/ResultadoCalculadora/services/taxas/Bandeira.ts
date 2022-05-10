@@ -1,4 +1,4 @@
-import { ICalculadora } from 'types'
+import { ICalculadora } from '../../../../types'
 import Kwh from '../Kwh'
 import { Cofins, Icms, Pis } from '.'
 

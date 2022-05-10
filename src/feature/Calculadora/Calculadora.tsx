@@ -1,6 +1,3 @@
-import AlertCustom from 'components/AlertCustom'
-import ResultadoCalculadora from 'feature/ResultadoCalculadora'
-import { namespaces } from 'i18n/i18n.constants'
 import { useState } from 'react'
 import {
   Form,
@@ -11,13 +8,14 @@ import {
   Accordion,
   Col,
 } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
-import { ICalculadora } from 'types'
+
 import Parser from 'html-react-parser'
 import styles from './Calculadora.module.css'
+import { ICalculadora } from '../../types'
+import { ResultadoCalculadora } from '..'
+import { AlertCustom } from '../../components'
 
 const Calculadora = () => {
-  const { t } = useTranslation(namespaces.components.caluladora)
   const props: ICalculadora = {
     medicaoAnterior: 0,
     medicaoAtual: 0,
