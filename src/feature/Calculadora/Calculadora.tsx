@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
   Form,
   OverlayTrigger,
@@ -63,7 +63,7 @@ const Calculadora = () => {
     <Tooltip id="button-tooltip">{Parser(tooltipText)}</Tooltip>
   )
   return (
-    <>
+    <React.Fragment>
       <AlertCustom
         isVisible={true}
         variant="warning"
@@ -161,7 +161,7 @@ const Calculadora = () => {
         </Card>
         <ResultadoCalculadora objCalculadora={calcState}></ResultadoCalculadora>
       </Form>
-    </>
+    </React.Fragment>
   )
 }
 

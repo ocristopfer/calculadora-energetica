@@ -2,50 +2,41 @@ import { ICalculadoraResponse, ICalculadora } from '../../../types'
 import { Kwh } from '.'
 import { Icms, Pis, Cofins, Bandeira, Iluminacao } from './taxas'
 
-export default class Calculadora {
-  private objCalcRespos: ICalculadoraResponse
-  private objIcms: Icms
-  private objPis: Pis
-  private objCofins: Cofins
-  private objKwh: Kwh
-  private objBandeira: Bandeira
-  private objIluminacao: Iluminacao
-  constructor(dadosACalcular: ICalculadora) {
-    this.objCalcRespos = {} as ICalculadoraResponse
-    this.objKwh = new Kwh(dadosACalcular)
-    this.objIcms = new Icms(dadosACalcular, this.objKwh)
-    this.objPis = new Pis(dadosACalcular, this.objKwh)
-    this.objCofins = new Cofins(dadosACalcular, this.objKwh)
-    this.objIluminacao = new Iluminacao(dadosACalcular, this.objKwh)
-    this.objBandeira = new Bandeira(
-      dadosACalcular,
-      this.objKwh,
-      this.objIcms,
-      this.objPis,
-      this.objCofins,
-    )
-  }
+//Todo estudar uma forma melhor de fazer os calculos, está muito pesado
+const Calculadora = (dadosACalcular: ICalculadora) => {
+  let objCalcRespos = {} as ICalculadoraResponse
+  const objKwh: Kwh = new Kwh(dadosACalcular)
+  const objIcms: Icms = new Icms(dadosACalcular, objKwh)
+  const objPis: Pis = new Pis(dadosACalcular, objKwh)
+  const objCofins: Cofins = new Cofins(dadosACalcular, objKwh)
+  const objIluminacao: Iluminacao = new Iluminacao(dadosACalcular, objKwh)
+  const objBandeira: Bandeira = new Bandeira(
+    dadosACalcular,
+    objKwh,
+    objIcms,
+    objPis,
+    objCofins,
+  )
 
-  public getValores = () => {
-    let objCalcRespos = this.objCalcRespos
-    //Totais
-    objCalcRespos.quantidadeKwh = this.objKwh.getQuantidadeKw()
-    objCalcRespos.valorConsumidoSemTaxa = this.objKwh.getValorConsumidoSemTaxa()
-    objCalcRespos.valorConsumidoComTaxa = this.objKwh.getValorConsumidoComTaxa()
-    objCalcRespos.valorTaxaIluminacao = this.objIluminacao.getIluminacao()
+  //Totais
+  objCalcRespos.quantidadeKwh = objKwh.getQuantidadeKw()
+  objCalcRespos.valorConsumidoSemTaxa = objKwh.getValorConsumidoSemTaxa()
+  objCalcRespos.valorConsumidoComTaxa = objKwh.getValorConsumidoComTaxa()
+  objCalcRespos.valorTaxaIluminacao = objIluminacao.getIluminacao()
 
-    //Taxas
-    objCalcRespos.valorKwComTaxas = this.objKwh.getValorComTaxas()
-    objCalcRespos.valorICMS = this.objIcms.getValor()
-    objCalcRespos.valorPisPasep = this.objPis.getValor()
-    objCalcRespos.valorCOFINS = this.objCofins.getValor()
-    objCalcRespos.valorBandeira = this.objBandeira.getValorBandeiraComTaxa()
+  //Taxas
+  objCalcRespos.valorKwComTaxas = objKwh.getValorComTaxas()
+  objCalcRespos.valorICMS = objIcms.getValor()
+  objCalcRespos.valorPisPasep = objPis.getValor()
+  objCalcRespos.valorCOFINS = objCofins.getValor()
+  objCalcRespos.valorBandeira = objBandeira.getValorBandeiraComTaxa()
 
-    objCalcRespos.valorTotal =
-      objCalcRespos.valorConsumidoComTaxa +
-      objCalcRespos.valorBandeira +
-      objCalcRespos.valorTaxaIluminacao
+  objCalcRespos.valorTotal =
+    objCalcRespos.valorConsumidoComTaxa +
+    objCalcRespos.valorBandeira +
+    objCalcRespos.valorTaxaIluminacao
 
-    return objCalcRespos
-  }
+  return objCalcRespos
 }
+
+export default Calculadora

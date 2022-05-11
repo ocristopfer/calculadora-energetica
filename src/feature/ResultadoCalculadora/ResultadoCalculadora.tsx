@@ -9,7 +9,7 @@ const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
   const [data, setData] = useState({} as ICalculadoraResponse)
 
   useEffect(() => {
-    setData(new Calculadora(objCalculadora).getValores())
+    setData(Calculadora(objCalculadora))
   }, [objCalculadora])
 
   var formatter = new Intl.NumberFormat('pt-BR', {
