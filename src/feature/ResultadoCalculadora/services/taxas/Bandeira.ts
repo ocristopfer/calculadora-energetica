@@ -33,12 +33,18 @@ export default class Bandeira {
   }
 
   public getValorBandeiraComTaxa = () => {
-    let bandeiraComTaxa = 0
-    bandeiraComTaxa += this.getValorBandeira()
-    bandeiraComTaxa += this.objIcms.getValorPorKw()
-    bandeiraComTaxa += this.objPis.getValorPorKw()
-    bandeiraComTaxa += this.objCofins.getValorPorKw()
-    return bandeiraComTaxa * Math.round(this.objKwh.getQuantidadeKw() / 100)
+    if (this.dadosACalcular.bandeira > 0) {
+      let bandeiraComTaxa = 0
+      bandeiraComTaxa += this.getValorBandeira()
+      if (bandeiraComTaxa === 0) {
+        return bandeiraComTaxa
+      }
+      bandeiraComTaxa += this.objIcms.getValorPorKw()
+      bandeiraComTaxa += this.objPis.getValorPorKw()
+      bandeiraComTaxa += this.objCofins.getValorPorKw()
+      return bandeiraComTaxa * Math.round(this.objKwh.getQuantidadeKw() / 100)
+    }
+    return 0
   }
 
   private getValorBandeira = () => {
