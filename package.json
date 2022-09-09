@@ -32,7 +32,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "android": "npm run build && npx cap add android && npx cap sync android && npx cap open android",
-    "heroku-postbuild": "npm run build"
+    "heroku-postbuild": "npm run build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages-d build"
   },
   "eslintConfig": {
     "extends": [
@@ -53,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^4.0.0",
     "prettier": "^2.6.2"
   }
 }
