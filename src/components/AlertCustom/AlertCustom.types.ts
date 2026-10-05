@@ -1,6 +1,8 @@
+import { ReactNode } from 'react'
+
 export interface IAlert {
   isVisible: boolean
   variant?: string
-  titulo?: string
-  message?: string
+  titulo?: ReactNode
+  children?: ReactNode
 }

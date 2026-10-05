@@ -1,8 +1,8 @@
 import { Figure } from 'react-bootstrap'
 import { ICardContributors } from './CardContributors.types'
 
-const CardContributors = (props: any) => {
-  let CardContributors = props.CardContributors as ICardContributors
+const CardContributors = (props: { CardContributors: ICardContributors }) => {
+  const CardContributors = props.CardContributors
   return (
     <>
       <Figure className="m-2">

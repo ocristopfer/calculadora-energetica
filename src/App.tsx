@@ -1,4 +1,3 @@
-import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { About, Contact } from './pages'
 import { NavBar } from './components'

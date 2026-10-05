@@ -1,86 +1,95 @@
-import { useState, useEffect } from 'react'
-import { Card } from 'react-bootstrap'
-import { ICalculadora, ICalculadoraResponse } from '../../types'
-import { Calculadora } from './services'
+import { Card, Col, Row, Table } from 'react-bootstrap'
+import { ResultadoConta } from '../../calculo/calcularConta'
 
-const ResultadoCalculadora: React.FC<{ objCalculadora: ICalculadora }> = ({
-  objCalculadora,
-}) => {
-  const [data, setData] = useState({} as ICalculadoraResponse)
+const moeda = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+})
+const moedaKwh = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+  minimumFractionDigits: 4,
+  maximumFractionDigits: 4,
+})
 
-  useEffect(() => {
-    setData(Calculadora(objCalculadora))
-  }, [objCalculadora])
+const Linha = ({ rotulo, valor }: { rotulo: string; valor: string }) => (
+  <tr>
+    <td>{rotulo}</td>
+    <td className="text-end">{valor}</td>
+  </tr>
+)
 
-  var formatter = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  })
+const ResultadoCalculadora = ({ resultado }: { resultado: ResultadoConta }) => (
+  <Card className="mt-3 mb-4">
+    <Card.Header>Resultado</Card.Header>
+    <Card.Body>
+      <div className="text-center mb-3">
+        <div className="text-muted">Valor estimado da conta</div>
+        <div className="display-6 fw-bold">{moeda.format(resultado.total)}</div>
+      </div>
+      <Row>
+        <Col lg={6}>
+          <Table size="sm" className="mb-3">
+            <thead>
+              <tr>
+                <th colSpan={2}>Consumo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <Linha
+                rotulo="Consumo medido"
+                valor={`${resultado.consumoKwh} kWh`}
+              />
+              <Linha
+                rotulo="Consumo faturado"
+                valor={`${resultado.kwhFaturado} kWh`}
+              />
+              <Linha
+                rotulo="Energia (sem tributos)"
+                valor={moeda.format(resultado.energiaSemTributos)}
+              />
+              <Linha
+                rotulo="Energia (com tributos)"
+                valor={moeda.format(resultado.energiaComTributos)}
+              />
+              <Linha
+                rotulo="Bandeira (com tributos)"
+                valor={moeda.format(resultado.bandeiraComTributos)}
+              />
+              <Linha
+                rotulo="Iluminação pública"
+                valor={moeda.format(resultado.cosip)}
+              />
+            </tbody>
+          </Table>
+        </Col>
+        <Col lg={6}>
+          <Table size="sm" className="mb-3">
+            <thead>
+              <tr>
+                <th colSpan={2}>Tributos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <Linha
+                rotulo="Preço final do kWh"
+                valor={moedaKwh.format(resultado.tarifaFinalKwh)}
+              />
+              <Linha rotulo="ICMS" valor={moeda.format(resultado.valorIcms)} />
+              <Linha
+                rotulo="PIS/PASEP"
+                valor={moeda.format(resultado.valorPis)}
+              />
+              <Linha
+                rotulo="COFINS"
+                valor={moeda.format(resultado.valorCofins)}
+              />
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+    </Card.Body>
+  </Card>
+)
 
-  return (
-    <>
-      <Card className="mt-3">
-        <Card.Header>Resultado</Card.Header>
-        <Card.Body>
-          <div className="row d-flex flex-row bd-highlight justify-content-center flex-wrap">
-            <div className="d-flex flex-column mt-1 bd-highlight col-lg-6">
-              <Card>
-                <Card.Header>Totais</Card.Header>
-                <Card.Body>
-                  <div>
-                    <span>Total Consumido (Kwh): </span>
-                    <span>{data.quantidadeKwh}</span>
-                  </div>
-                  <div>
-                    <span>Valor Consumido (Sem taxas): </span>
-                    <span>{formatter.format(data.valorConsumidoSemTaxa)}</span>
-                  </div>
-                  <div>
-                    <span>Valor Consumido: </span>
-                    <span>{formatter.format(data.valorConsumidoComTaxa)}</span>
-                  </div>
-                  <div>
-                    <span>Valor Total: </span>
-                    <span>{formatter.format(data.valorTotal)}</span>
-                  </div>
-                  <div>
-                    <span>Taxa Iluminacao: </span>
-                    <span>{formatter.format(data.valorTaxaIluminacao)}</span>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="d-flex flex-column mt-1 bd-highlight col-lg-6">
-              <Card>
-                <Card.Header>Taxas</Card.Header>
-                <Card.Body>
-                  <div>
-                    <span>Valor kw: </span>
-                    <span>{formatter.format(data.valorKwComTaxas)}</span>
-                  </div>
-                  <div>
-                    <span>Total IMCS: </span>
-                    <span>{formatter.format(data.valorICMS)}</span>
-                  </div>
-                  <div>
-                    <span>Total PIS/PASEP: </span>
-                    <span>{formatter.format(data.valorPisPasep)}</span>
-                  </div>
-                  <div>
-                    <span>Total COFINS: </span>
-                    <span>{formatter.format(data.valorCOFINS)}</span>
-                    <div>
-                      <span>Total Bandeira: </span>
-                      <span>{formatter.format(data.valorBandeira)}</span>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-        </Card.Body>
-      </Card>
-    </>
-  )
-}
 export default ResultadoCalculadora

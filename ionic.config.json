@@ -1,7 +1,0 @@
-{
-  "name": "Calculadora Energética",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}
