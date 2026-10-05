@@ -1,34 +1,66 @@
 # Calculadora Energética
 
-Projeto com intuido de calcular o valor da conta de luz.
+Calcula uma estimativa da conta de luz residencial a partir da leitura do
+medidor, usando a tarifa da distribuidora do seu estado (Light, Enel, Copel,
+Cemig, CPFL, Celesc, Neoenergia, Equatorial, Energisa e outras).
 
-[Calculadora (Heroku Deploy)](https://calculadora-ligth.herokuapp.com/)
+**Acesse:** https://ocristopfer.github.io/calculadora-energetica/
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Como o cálculo é feito
 
-## Available Scripts
+1. **Consumo** = leitura atual − leitura anterior. Se for menor que o custo de
+   disponibilidade (30/50/100 kWh para mono/bi/trifásico), cobra-se o mínimo.
+2. **Tarifa sem tributos** = TE + TUSD da distribuidora (residencial B1,
+   modalidade convencional), homologada pela ANEEL.
+3. **Bandeira tarifária**: acréscimo por kWh (valores da ANEEL por 100 kWh).
+4. **Tributos "por dentro"**, como nas contas das distribuidoras:
+   `valor com tributos = valor sem tributos / (1 − (ICMS + PIS + COFINS))`.
+   O ICMS usa a alíquota do estado (com faixas de isenção/redução onde
+   cadastradas). PIS/COFINS variam mês a mês e podem ser ajustados.
+5. **Iluminação pública (COSIP/CIP)**: tabela do município quando cadastrada
+   (hoje, Rio de Janeiro); nas demais cidades informe o valor da sua conta.
 
-In the project directory, you can run:
+Todos os parâmetros podem ser sobrescritos em _Opcional_ com os valores da
+sua fatura.
 
-### `yarn start`
+## Dados
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+| Arquivo | Conteúdo |
+| --- | --- |
+| `src/data/tarifas.json` | Tarifas por distribuidora e valores das bandeiras |
+| `src/data/estados.ts` | ICMS por estado |
+| `src/data/municipios.ts` | Tabelas de COSIP por município |
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+As tarifas vêm dos [dados abertos da ANEEL](https://dadosabertos.aneel.gov.br/dataset/tarifas-distribuidoras-energia-eletrica).
+Distribuidoras marcadas como _estimada_ ainda não tiveram o valor confirmado
+pela ANEEL e são atualizadas automaticamente:
 
-### `yarn test`
+```bash
+npm run tarifas:atualizar
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+O deploy semanal roda essa atualização antes do build, e o workflow
+_Atualizar tarifas ANEEL_ abre um PR quinzenal com o JSON atualizado.
 
-### `yarn build`
+## Desenvolvimento
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Requer Node.js 20+.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+npm run dev      # servidor local
+npm test         # testes (vitest)
+npm run build    # gera ./build
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Com Docker: `docker compose up --build` e acesse http://localhost:3001.
+
+## Deploy (GitHub Pages)
+
+O workflow `.github/workflows/deploy.yml` publica a cada push na `main`.
+Em **Settings → Pages**, selecione **Source: GitHub Actions**.
+
+## Contribuindo
+
+Para adicionar a COSIP de uma cidade ou corrigir uma alíquota de ICMS, edite
+os arquivos em `src/data/` e abra um PR.
