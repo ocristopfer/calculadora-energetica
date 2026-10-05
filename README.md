@@ -1,5 +1,7 @@
 # Calculadora Energética
 
+[![Deploy GitHub Pages](https://github.com/ocristopfer/calculadora-energetica/actions/workflows/deploy.yml/badge.svg)](https://github.com/ocristopfer/calculadora-energetica/actions/workflows/deploy.yml)
+
 Calcula uma estimativa da conta de luz residencial a partir da leitura do
 medidor, usando a tarifa da distribuidora do seu estado (Light, Enel, Copel,
 Cemig, CPFL, Celesc, Neoenergia, Equatorial, Energisa e outras).
@@ -31,16 +33,26 @@ sua fatura.
 | `src/data/estados.ts` | ICMS por estado |
 | `src/data/municipios.ts` | Tabelas de COSIP por município |
 
-As tarifas vêm dos [dados abertos da ANEEL](https://dadosabertos.aneel.gov.br/dataset/tarifas-distribuidoras-energia-eletrica).
-Distribuidoras marcadas como _estimada_ ainda não tiveram o valor confirmado
-pela ANEEL e são atualizadas automaticamente:
+As tarifas vêm dos [dados abertos da ANEEL](https://dadosabertos.aneel.gov.br/dataset/tarifas-distribuidoras-energia-eletrica)
+(tarifa de aplicação vigente, residencial B1 convencional) e são atualizadas
+automaticamente:
+
+- **A cada deploy** (push na `main` e toda segunda-feira) o site é gerado com
+  as tarifas vigentes no dia.
+- **A cada 15 dias** o workflow _Atualizar tarifas ANEEL_ abre um PR com o
+  `src/data/tarifas.json` atualizado, para manter os dados versionados.
+
+Para atualizar localmente:
 
 ```bash
 npm run tarifas:atualizar
 ```
 
-O deploy semanal roda essa atualização antes do build, e o workflow
-_Atualizar tarifas ANEEL_ abre um PR quinzenal com o JSON atualizado.
+Distribuidoras com o selo _estimada_ ainda não tiveram o valor confirmado pela
+ANEEL. Se a ANEEL passar a usar uma sigla nova, o script lista o agente em
+"Sem mapeamento" — basta adicioná-lo em `MAPA_AGENTES`
+(`scripts/tarifas-aneel.mjs`). Pequenas distribuidoras e cooperativas ainda
+não estão cadastradas; contribuições são bem-vindas.
 
 ## Desenvolvimento
 
@@ -57,8 +69,10 @@ Com Docker: `docker compose up --build` e acesse http://localhost:3001.
 
 ## Deploy (GitHub Pages)
 
-O workflow `.github/workflows/deploy.yml` publica a cada push na `main`.
-Em **Settings → Pages**, selecione **Source: GitHub Actions**.
+O workflow `.github/workflows/deploy.yml` publica em
+https://ocristopfer.github.io/calculadora-energetica/ a cada push na `main`
+(Settings → Pages → Source: **GitHub Actions**). PRs passam pelo workflow
+`ci.yml` (testes e build).
 
 ## Contribuindo
 
