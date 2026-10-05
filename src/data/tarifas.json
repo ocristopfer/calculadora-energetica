@@ -45,7 +45,7 @@
     { "id": "equatorial-pa", "nome": "Equatorial Pará", "ufs": ["PA"], "tarifa": 0.978, "origem": "referencia" },
     { "id": "cea", "nome": "CEA Equatorial", "ufs": ["AP"], "tarifa": 0.82, "origem": "estimativa" },
     { "id": "amazonas-energia", "nome": "Amazonas Energia", "ufs": ["AM"], "tarifa": 0.93, "origem": "estimativa" },
-    { "id": "roraima-energia", "nome": "Roraima Energia", "ufs": ["RR"], "tarifa": 0.8, "origem": "estimativa" },
+    { "id": "roraima-energia", "nome": "Âmbar Energia (Roraima)", "ufs": ["RR"], "tarifa": 0.8, "origem": "estimativa" },
     { "id": "energisa-ro", "nome": "Energisa Rondônia", "ufs": ["RO"], "tarifa": 0.87, "origem": "estimativa" },
     { "id": "energisa-ac", "nome": "Energisa Acre", "ufs": ["AC"], "tarifa": 0.9, "origem": "estimativa" }
   ]

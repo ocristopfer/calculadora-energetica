@@ -32,6 +32,8 @@ describe('tarifas ANEEL', () => {
     expect(idDoAgente('LIGHT SESA')).toBe('light')
     expect(idDoAgente('COPEL-DIS')).toBe('copel')
     expect(idDoAgente('CPFL-PIRATININGA')).toBe('cpfl-piratininga')
+    expect(idDoAgente('CPFL-PIRATINING')).toBe('cpfl-piratininga')
+    expect(idDoAgente('ÂMBAR ENERGIA RR')).toBe('roraima-energia')
     expect(idDoAgente('CEEE-D')).toBe('ceee')
     expect(idDoAgente('CEA')).toBe('cea')
     expect(idDoAgente('CEAL')).toBe('equatorial-al')

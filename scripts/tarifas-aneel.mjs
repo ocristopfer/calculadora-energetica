@@ -25,7 +25,7 @@ export const MAPA_AGENTES = [
   [/ENELSP|ELETROPAULO/, 'enel-sp'],
   [/ENELCE|COELCE/, 'enel-ce'],
   [/ENELGO|CELGD|EQUATORIALGO/, 'equatorial-go'],
-  [/PIRATININGA/, 'cpfl-piratininga'],
+  [/PIRATINING/, 'cpfl-piratininga'],
   [/SANTACRUZ/, 'cpfl-santa-cruz'],
   [/CPFLPAULISTA|^CPFL$/, 'cpfl-paulista'],
   [/^COPEL/, 'copel'],
@@ -57,7 +57,7 @@ export const MAPA_AGENTES = [
   [/^EMR$|ENERGISAMR|ENERGISAMINASRIO/, 'energisa-mr'],
   [/^ESS$|ENERGISASS|ENERGISASULSUDESTE/, 'energisa-ss'],
   [/^AME$|AMAZONAS/, 'amazonas-energia'],
-  [/RORAIMA|^BOAVISTA/, 'roraima-energia'],
+  [/RORAIMA|^BOAVISTA|AMBARENERGIARR/, 'roraima-energia'],
   [/SULGIPE/, 'sulgipe'],
   [/^DMED/, 'dmed'],
 ]
